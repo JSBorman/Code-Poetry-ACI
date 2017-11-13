@@ -1,66 +1,61 @@
 #!/usr/bin/env python
 import time
-import random
+from random import random, randint
+import os
 
-this_year = 0
-i_live = True
-inspired = True
-still_searching = True
-chance = 0		# Needs to not be a constant
-health = .8
+base1, base2 = -1, 0
+i_live, still_searching = True, True
 
-my_purpose = 'tbd'
-life = ["find love", "honor", "earn a doctorate", "go to college"] # Include more life goals
-to_ancestors = 0
-days = .01
+life = ["Purpose", "Adventure", "Nature", "Challenge", "Opportunity", "Love", "Give", "Change"]
+possibilities = len(life) - 1
 
+to_ancestors = life.index("Purpose")
+inspired, determined = [ord(steps[to_ancestors]) for steps in ["Inspired","Determined"]]
 
-def this_life(destiny):
+def this_life(destiny, this_year):
 	my_purpose = destiny in life
 
 	while(i_live):
-		keep_searching()
+		keep_searching(this_year)
 		for meaning in life:
 			meaningful = meaning
 			
 			if my_purpose is meaningful:
 				still_searching = False
-				return to_ancestors
+				os.exit(to_ancestors)
 
-			else:
-				continue
-
-def keep_searching():
+def keep_searching(this_year):
 	next_year = this_year + 1
 
-	if still_alive() is False:
-		i_live = False
-	else:
-		i_live = True
+	if inspired is determined:
+		my_purpose = life[ (inspired*determined/destiny) % possibilities]
 
-	#if(inspired):
-	# 	determination = len(life)
-	#	opportunity = 20
-	#	my_purpose = life[inspired*destiny + opportunity % determination]
-
-	if i_live and still_searching:
-		print("Another year... another chance")
-		time.sleep(365.25 * days)
+	if i_am_alive() and still_searching:
+		print("Another chance")
+		time.sleep(365.25 * days())
 	
 	elif still_searching:
-		print("Another life... another chance")
+		print("Another life...")
 		begin_life()
+
+def i_am_alive():
+	illness = random()
+	condition = len(life) * days() * genetics()
+	
+	if(illness > condition ):
+		return not i_live
+	return i_live
 
 def begin_life():
 	this_year = 0
 	i_live = True
-	destiny = life[chance]		# Need to change chance
-	this_life(destiny)
+	chance = randint(0, possibilities)
+	destiny = life[chance]
+	this_life(destiny, this_year)
 
-def still_alive():
-	if(random.random() < health ):
-		return i_live
-	else:
-		return not i_live
+def days():
+	return float("." + str(base2) + str(base1**base2))
+def genetics():
+	return float(str(base1**base2) + str(base2)) 
 
 begin_life()
