@@ -3,7 +3,6 @@ import time
 from random import random, randint
 import os
 
-base1, base2 = -1, 0
 i_live, still_searching = True, True
 
 life = ["Purpose", "Adventure", "Nature", "Challenge", "Opportunity", "Love", "Give", "Change"]
@@ -53,6 +52,7 @@ def begin_life():
 	destiny = life[chance]
 	this_life(destiny, this_year)
 
+base1, base2 = -1, 0
 def days():
 	return float("." + str(base2) + str(base1**base2))
 def genetics():
